@@ -1,20 +1,21 @@
 /*
 	@author: CJ PROG
+    @name: José Eduardo Chico
 */
 
+//#include "filaINSS.c"
 #include <stdlib.h>
 #include <stdio.h>
 #include "filaINSS.h"
-//#include "filaINSS.c"
-#include "structInfo.h"
 #include "structCaixa.h"
 #include "unistd.h"
 
-#define TEMP_TRAB 360  // Tempo de trabalho
+#define TEMP_TRAB 36//360  // Tempo de trabalho
 #define TEMP_INSERT_CLI 5
 #define TEMP_CLI 30
 #define TEMP_CLI_MIN 1
 #define TEMP_CLI_MAX 10
+#define MAX_CLI_MIN 5 //Maximo numero de clientes em dado minuto
 
 #define IS_PENSIONISTA(x) ( (x) >= 60 ? TRUE : FALSE )
 
@@ -31,6 +32,9 @@ TInfo newCustommer( int id ){
 }
 
 //typedef enum { EQUILIBRADO = 0, NAO_PENSIONISTA = 1, PENSIONISTA = 2 } Equilibrio;
+/*Equilibrio estado( TFINSS *list ){
+    return ( getLenth - getNormalLenth ) ;
+}*/
 
 void updateTimeQueue( TFINSS *list, int *abandonos ){
 	TAtom *paux = list->head->next, *pdel;
@@ -56,19 +60,14 @@ void updateTimeQueue( TFINSS *list, int *abandonos ){
 
 }
 
-
-/*Equilibrio estado( TFINSS *list ){
-	return ( getLenth - getNormalLenth ) ;
-}*/
-
-main(){
-
+int main(){
+    
+    // Equilibrio eq = EQUILIBRADO;
 	srand( time( NULL ) );
 	int id = 1, minutos = 0, pensConsec = 0, totAbandono = 0, foraPrazo, counter = 0;
 	int indexCaixa = 0, filaPensionista, filaNormal;
 	TInfo infoAux = {0, 0, 0, 0};
 	Error e;
-	Equilibrio eq = EQUILIBRADO;
 	FILE *l;
 	TCaixa caixas[3] = { { 1, 0, 0, 0, 0, 0, 0, 0 }, { 2, 0, 0, 0, 0, 0, 0, 0 }, { 3, 0, 0, 0, 0, 0, 0, 0 } };
 
@@ -77,20 +76,12 @@ main(){
 
 	printf( "\n================================= INICIO AGENCIA ========================================== \n\n" );
 
-	while( minutos < TEMP_TRAB )
+	while( minutos < TEMP_TRAB || haveFINSSData( &list ) || !(isCaixaFree( &caixas[0] ) || isCaixaFree( &caixas[1] ) || isCaixaFree( &caixas[2] )) )
 	{
+        printf( "\n================================= Minuton %d ========================================== \n\n", minutos );
 		if( minutos < TEMP_TRAB ){
 			if( minutos % TEMP_INSERT_CLI == 0 ){
-				/*e = addFINSSInfo( &list, ( infoAux = newCustommer( id++ ) ) );
-				printf( "\n CLIENTE ADICIONADO: \n" );
-				if( e == OK )
-					printInfo( &infoAux );
-				else{
-					errorMessage( e );
-					exit( 0 );
-				}*/
-
-				counter = generate( 3, 1 );
+				counter = generate( MAX_CLI_MIN, 1 );
 				while( counter-- > 0 ){
 					e = addFINSSInfo( &list, ( infoAux = newCustommer( id++ ) ) );
 					printf( "\n CLIENTE ADICIONADO: \n" );
@@ -111,10 +102,11 @@ main(){
 				filaNormal = getNormalLenth( &list );
 				filaPensionista = getLenthByAge( &list );
 
-				if( filaNormal >= filaPensionista * 1.5  ){
+				if( filaNormal >= filaPensionista * 1.6  ){
 					e = removeFirstFINSSNormal( &list, &infoAux );
+                    pensConsec = 0;
 				}
-				else if( filaPensionista > filaNormal*1.5 ){
+				else if( filaPensionista > filaNormal*1.6 ){
 					e = removeFirstFINSSPensionista( &list, &infoAux );
 					pensConsec++;
 				}
@@ -145,10 +137,9 @@ main(){
 
 		updateTimeQueue( &list, &totAbandono );
 		printf( "\nTOTAL PENSIONISTAS NA FILA: %d", getLenthByAge( &list ) );
-		printf( "\nTOTAL NAO PENSIONISTAS NA FILA: %d", getNormalLenth( &list ) );
-		//minutos++;
-		minutos += 2;
-		sleep( 4 );
+		printf( "\nTOTAL NAO PENSIONISTAS NA FILA: %d\n", getNormalLenth( &list ) );
+		minutos++;
+		sleep( 1 );
 		//system("CLS");
 	}
 
@@ -170,6 +161,7 @@ main(){
 
 	printf("\n\n");
 	system("PAUSE");
+    return 0;
 }
 
 

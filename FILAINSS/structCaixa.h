@@ -1,5 +1,6 @@
-/* 
-	@author: JOSÉ EDUARDO CJ
+/*
+    @author: CJ PROG
+    @name: José Eduardo Chico
 */
 
 #ifndef CAIXA_DEFINED

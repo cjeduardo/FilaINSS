@@ -1,5 +1,6 @@
-/* 
-	@author: JOSÉ EDUARDO CJ
+/*
+    @author: CJ PROG
+    @name: José Eduardo Chico
 */
 
 #ifndef INFO_DEFINED
@@ -11,5 +12,7 @@ struct Info{
 	int time;
 	int timeQueue;
 };
+
+typedef struct Info TInfo;
 
 #endif // INFO_DEFINED

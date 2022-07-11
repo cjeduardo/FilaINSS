@@ -1,37 +1,12 @@
-/* 
-	@author: JOSÉ EDUARDO CJ
+/*
+    @author: CJ PROG
+    @name: José Eduardo Chico
 */
 
 #ifndef FILAINSSS_DEFINED
 #define FILAINSSS_DEFINED
 
 #include "filaINSS.h"
-#include <time.h>
-
-// =================== STRUCTS DECLARATIONS =====================================
-
-struct Atom{
-	TInfo info;
-	struct Atom *next;
-    struct Atom *before;
-    struct Atom *nextAge;
-    struct Atom *beforeAge;
-};
-
-struct filaINSS{
-	struct Atom *head;
-};
-
-/*struct Caixa{
-	int status;
-	int id;
-	int tempCaixa;
-	int totAtendidos;
-	int totPensionistas;
-	int totPrazo;
-};*/
-
-// =================== END OF STRUCTS DECLARATIONS =============================
 
 // =================== METHODS IMPLEMENTATION ==================================
 TAtom *allocAtom(){
@@ -220,10 +195,6 @@ int getLenth( TFINSS *list ){
 	return count;
 }
 
-void insertCaixa(  ){
-	
-}
-
 void errorMessage( Error codret )
 {
 	switch (codret)
@@ -246,39 +217,12 @@ void errorMessage( Error codret )
 		case IVALID:
 			printf( "\n Erro: Opcao IVALIDA..!" );
 		break;
+        case OK:
+        break;
 	}
 }
 
 // ==========================================================================
-/*
-main(){
-	srand( time( NULL ) );
-	TInfo info1 = { 1, generate(80, 10), generate(20, 1)}, 
-		info2 = { 2, generate(80, 10), generate(20, 1) }, 
-		info3 = { 3, generate(80, 10), generate(20, 1) };
-	TFINSS list;
-	initFINSS( &list );
-	addFINSSInfo( &list, info1 );
-	addFINSSInfo( &list, info2 );
-	addFINSSInfo( &list, info3 );
-	printList( &list );
-	printf( "\n=============== LIST BY AGE ====================== \n" );
-	printListByAge( &list );
-	
-	getLenthByAge( &list );
-	
-	sleep( 2 );
-	while( true )
-	{
-		
-	}
-	
-	
-	printf("\n\n");
-	system("PAUSE");
-	
-}
-*/
 
 #endif // FILAINSSS_DEFINED
 
