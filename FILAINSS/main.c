@@ -10,7 +10,7 @@
 #include "structCaixa.h"
 #include "unistd.h"
 
-#define TEMP_TRAB 36//360  // Tempo de trabalho
+#define TEMP_TRAB 360  // Tempo de trabalho
 #define TEMP_INSERT_CLI 5
 #define TEMP_CLI 30
 #define TEMP_CLI_MIN 1
